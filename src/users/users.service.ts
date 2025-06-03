@@ -11,17 +11,18 @@ export class UsersService {
     @InjectRepository(Users)
     private usersRepository: Repository<Users>, // O repositório de usuários, injetado pelo TypeORM
   ) {}
-  async createUser(dto: userDtoRegister){
-  
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
+  async createUser(dto: userDtoRegister) {
+  const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    // Cria um novo usuário e salva no banco
-    await this.usersRepository.manager.query(
-      `INSERT INTO users (id, name, nickname, email, dt_nasc, password, type, avatar, estado, online)
-       VALUES (DEFAULT, ?, ?, ?, ?, ?, 2, ?, ?, 0)`,[dto.name, dto.nickname, dto.email, dto.dt_nasc, hashedPassword, dto.avatar, dto.estado]
-    );
-     // Salva o usuário no banco de dados
-  }
+  await this.usersRepository.manager.query(
+    `INSERT INTO users 
+      (id, name, nickname, email, dt_nasc, password, type, avatar, estado, online)
+     VALUES 
+      (DEFAULT, $1, $2, $3, $4, $5, 2, $6, $7, 0)`,
+    [dto.name, dto.nickname, dto.email, dto.dt_nasc, hashedPassword, dto.avatar, dto.estado]
+  );
+}
+
 
   async findNickname(nickname: string): Promise <Users | null> {
     const nick = await this.usersRepository.findOne({where: {nickname}})
@@ -46,7 +47,7 @@ export class UsersService {
       `SELECT 
       u.id, u.name, u.nickname, u.dt_nasc, 
       u.type, u.avatar, u.estado, u.online 
-      FROM users u WHERE u.id != ?`,[idUser]
+      FROM users u WHERE u.id != $1`,[idUser]
     )
   }
   async findByType(type:number){

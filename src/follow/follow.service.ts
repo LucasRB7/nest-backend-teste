@@ -26,7 +26,7 @@ export class FollowService {
                   SELECT u.id, u.name,f.user_id, u.nickname, f.follow, u.avatar
                   FROM follow f
                   INNER JOIN users u ON u.id = f.foll_id
-                  WHERE f.user_id = ? 
+                  WHERE f.user_id = $1 
                 `, [userId]); 
             
             return result;   
@@ -37,7 +37,7 @@ export class FollowService {
                   `SELECT f.user_id, u.nickname, f.foll_id, f.follow
                   FROM follow f
                   INNER JOIN users u ON u.id = f.foll_id
-                  WHERE f.user_id = ? AND f.foll_id = ?`,[userId,follId]
+                  WHERE f.user_id = $1 AND f.foll_id = $2`,[userId,follId]
             )
       }
 
@@ -46,7 +46,7 @@ export class FollowService {
                   `select name, avatar, nickname, img_url,f.follow, s.compartilhado from follow f
                   join users u ON u.id = f.foll_id
                   join skins s ON s.user_id = u.id
-                  where f.user_id = ? and f.foll_id = ? and f.follow = 1 and s.compartilhado = 1
+                  where f.user_id = $1 and f.foll_id = $2 and f.follow = 1 and s.compartilhado = 1
                   ORDER BY s.up_date DESC`,[userId, follId]
             );
       }
@@ -74,7 +74,7 @@ export class FollowService {
                   `SELECT f.user_id, u.nickname, f.foll_id, f.follow
                   FROM follow f
                   INNER JOIN users u ON u.id = f.foll_id
-                  WHERE f.foll_id = ?`,[id]
+                  WHERE f.foll_id = $1`,[id]
             )
       }
 
