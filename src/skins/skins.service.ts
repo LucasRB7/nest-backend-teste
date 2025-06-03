@@ -49,7 +49,7 @@ export class SkinsService {
               try {
             const user = await this.userService.FindIdName(userId)
             let msg = `${user?.nickname} acabou de lançar uma nova skin! Confere la!`;
-            await axios.post(`http://localhost:3000/notifications/${userId}/${msg}`)       
+            await axios.post(`https://nest-backend-teste.onrender.com/notifications/${userId}/${msg}`)       
             } catch (error) {
                   console.log(error)
             }
