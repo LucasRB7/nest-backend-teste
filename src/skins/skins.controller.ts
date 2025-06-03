@@ -49,9 +49,10 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
         @Body()
         Body:{
           url : string,
-          comp : number
+          comp : number,
+          userId : number
         }
       ){
-        return this.Skins.update(id, Body.url, Body.comp);
+        return this.Skins.update(id, Body.url, Body.comp, Body.userId);
       }
     }

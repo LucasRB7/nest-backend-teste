@@ -13,10 +13,8 @@ export class UsersController {
       findOne(@Param('id') id:number){
             return this.UserService.FindIdName(id);
       }
-
       @ApiOperation({summary:'Retorna todos os usuarios cadastrados'})
       @Get("/all/:idUser")
-      //@UseGuards(JwtAuthGuard)
       findAll(@Param("idUser") idUser:number){
             return this.UserService.findAll(idUser);
       }

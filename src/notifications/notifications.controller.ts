@@ -1,12 +1,14 @@
 import { Controller, Post, Param, UseGuards } from '@nestjs/common';
 import { NotificationsGateway } from './notifications.gateway';
 import axios from 'axios';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { FollowService } from 'src/follow/follow.service';
 
-UseGuards(JwtAuthGuard)
 @Controller('notifications')
 export class NotificationController {
-  constructor(private readonly notificationsGateway: NotificationsGateway) {}
+  constructor(
+    private readonly notificationsGateway: NotificationsGateway,
+    private readonly followService: FollowService
+  ) {}
 
   @Post('/:id/:skinsmsg')
   async sendNotification(
@@ -14,8 +16,8 @@ export class NotificationController {
     @Param('skinsmsg') skinsmsg: string
   ){
     try {
-        const response = await axios.get(`http://localhost:3000/follow/getfollowers/${id}`)
-        const relations = response.data;
+        const resolve = await this.followService.GetFollowers(id)
+        const relations = resolve
         const relationsFilter = relations.filter(e => e.follow == 1)
         relationsFilter.map(i =>{
             this.notificationsGateway.sendNotification(i.user_id,skinsmsg);
