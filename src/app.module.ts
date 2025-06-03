@@ -14,13 +14,13 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot({
-      type: 'mysql',  
-      host: process.env.DB_HOST,
-      port: 10005,  
-      username: 'root', 
-      password: 'root',  
-      database: 'bd_dev', 
-      entities: [__dirname + '/**/*.entity{.ts,.js}']  
+      type: 'postgres',
+      url: process.env.DATABASE_URL,
+      autoLoadEntities: true,
+      synchronize: false, // só use true em dev, em prod use migrations!
+      ssl: {
+        rejectUnauthorized: false, // Railway exige SSL, desabilita validação para dev
+      },
     }),
     UsersModule,
     AuthModule,
