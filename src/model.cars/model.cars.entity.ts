@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()  // Define que é uma tabela no banco
-export class modelCars {
+export class model_cars {
   @PrimaryGeneratedColumn()
   id_car: number;
 
