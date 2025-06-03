@@ -1,6 +1,5 @@
 import { Controller, Post, Param, UseGuards } from '@nestjs/common';
 import { NotificationsGateway } from './notifications.gateway';
-import axios from 'axios';
 import { FollowService } from 'src/follow/follow.service';
 
 @Controller('notifications')
@@ -22,8 +21,6 @@ export class NotificationController {
         relationsFilter.map(i =>{
             this.notificationsGateway.sendNotification(i.user_id,skinsmsg);
         })
-        
-        console.log(relationsFilter);
     } catch (error) {
         console.log(error)
     }

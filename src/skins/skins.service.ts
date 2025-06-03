@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { skins } from './skins.entity';
 import { UsersService } from 'src/users/users.service';
-import { NotificationsGateway } from 'src/notifications/notifications.gateway';
 import axios from 'axios';
 
 @Injectable()
@@ -12,7 +11,6 @@ export class SkinsService {
             @InjectRepository(skins)
             private readonly skinsRepository: Repository<skins>,
             private readonly userService: UsersService,
-            private readonly notification: NotificationsGateway
       ){}
       async saveImage(userId: number, url: string, comp: number): Promise<skins>{
             const skin = new skins();

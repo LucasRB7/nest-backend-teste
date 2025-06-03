@@ -21,7 +21,6 @@ export class UsersController {
 
       @ApiOperation({summary:'Retorna o usuario pelo Nickname'})
       @Get("/nick/:nick")
-      //@UseGuards(JwtAuthGuard)
       findNick(@Param('nick') nick: string){
             return this.UserService.findNickname(nick);
       }
