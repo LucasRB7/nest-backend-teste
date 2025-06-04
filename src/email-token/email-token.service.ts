@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EmailToken } from './email-token.entity';
 import { Repository } from 'typeorm';
 import * as nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 @Injectable()
 export class EmailTokenService {
@@ -18,20 +19,13 @@ export class EmailTokenService {
     const tokenEntry = this.tokenRepo.create({ email, token, expiresAt });
     await this.tokenRepo.save(tokenEntry);
 
-    // ENVIA E-MAIL
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'SEU_EMAIL@gmail.com',
-        pass: 'SENHA_APP', // Use App Passwords se estiver usando Gmail
-      },
-    });
+    const resend = new Resend(process.env.RESEND_API);
 
-    await transporter.sendMail({
-      from: 'no-reply@seusite.com',
+    await resend.emails.send({
+      from: 'Sebby Games <no-reply@onresend.com>',
       to: email,
-      subject: 'Seu código de verificação',
-      text: `Seu código de verificação é: ${token}`,
+      subject: 'Código de verificação',
+      text: `Seu código é: ${token}`
     });
   }
 
