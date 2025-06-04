@@ -33,12 +33,10 @@ export class UsersService {
   }
 
   async findUserByEmail(email: string): Promise<Users | null> {
-      const user = await this.usersRepository.findOne({ where: { email } });
-  
+      const user = await this.usersRepository.findOne({ where: { email } });  
       if (!user) {
         return null; 
-      }
-  
+      }  
       return user; 
     }
 

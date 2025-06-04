@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { userDtoLogin } from './dto/auth.dto.login';
 import { userDtoRegister } from './dto/auth.dto.register';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class AuthService {

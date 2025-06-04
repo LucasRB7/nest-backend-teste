@@ -17,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres',
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
-      synchronize: false, // só use true em dev, em prod use migrations!
+      synchronize: true, // só use true em dev, em prod use migrations!
       ssl: {
         rejectUnauthorized: false, // Railway exige SSL, desabilita validação para dev
       },
