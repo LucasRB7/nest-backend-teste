@@ -1,13 +1,18 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
+import { Body,Req, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiOperation } from '@nestjs/swagger';
+
 
 UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
       constructor(private readonly UserService: UsersService){}
 
+      @Get('me')
+      getProfile(@Req() req) {
+      return req.user; // ← vem do payload JWT
+      }
       @ApiOperation({summary:'Retorna informações do usuario pelo ID'})
       @Get('/infor/:id')
       findOne(@Param('id') id:number){

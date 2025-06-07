@@ -1,10 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { userDtoRegister } from './dto/auth.dto.register';
 import { userDtoLogin } from './dto/auth.dto.login';
 import { EmailTokenService } from 'src/email-token/email-token.service';
+import { Response } from 'express';
 
 @ApiTags('Autenticação')
 @Controller('auth')
@@ -23,7 +24,10 @@ export class AuthController {
   
   @ApiOperation({summary:'Responsavel por fazer o login'})
   @Post('login')
-  async login(@Body() dto: userDtoLogin) {
-    return this.authService.login(dto);
+  async login(
+    @Body() dto: userDtoLogin,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    return await this.authService.login(dto, res);
   }
 }

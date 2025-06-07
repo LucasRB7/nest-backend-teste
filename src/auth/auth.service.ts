@@ -5,6 +5,7 @@ import * as bcrypt from 'bcryptjs';
 import { userDtoLogin } from './dto/auth.dto.login';
 import { userDtoRegister } from './dto/auth.dto.register';
 import { EmailTokenService } from 'src/email-token/email-token.service';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   // LOGIN
-  async login(dto: userDtoLogin): Promise<{ access_token: string, type: number, id_user: number,nickname: string, online:number}> {
+  async login(dto: userDtoLogin, res: Response): Promise<{ access_token: string, type: number, id_user: number,nickname: string, online:number}> {
     const user = await this.usersService.findNickname(dto.nickname);
 
     if (!user) {
@@ -42,6 +43,12 @@ export class AuthService {
     const payload = { sub: user.id, nickname:user.nickname };
     const token = this.jwtService.sign(payload);
 
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false, // true em produção com HTTPS
+      sameSite: 'lax',
+      maxAge: 24 * 60 * 60 * 1000, // 1 dia
+    });
     return { 
       access_token: token,
       type: user.type,
