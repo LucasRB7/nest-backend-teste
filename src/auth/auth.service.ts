@@ -13,6 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
     private emailToken: EmailTokenService
   ) {}
+  
 
   async register(userDto: userDtoRegister): Promise<any> {
     const userExists = await this.usersService.findUserByEmail(userDto.email);

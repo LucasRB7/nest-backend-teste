@@ -26,6 +26,7 @@ export class EmailTokenService {
       text: `Seu código é: ${token}. Ele expira em 15 minutos.`
     });
     console.log(resSend)
+    
   }
 
   async validateToken(email: string, token: string): Promise<boolean> {
