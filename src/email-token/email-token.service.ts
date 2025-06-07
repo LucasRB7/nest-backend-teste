@@ -20,9 +20,9 @@ export class EmailTokenService {
 
     const resend = new Resend(process.env.RESEND_API);
     const resSend = await resend.emails.send({
-      from: '<no-reply@onresend.com>',
+      from: 'onboarding@resend.dev',
       to: email,
-      subject: 'Código de verificação',
+      subject: 'Código de verificação - SebbyGames',
       text: `Seu código é: ${token}. Ele expira em 15 minutos.`
     });
     console.log(resSend)
