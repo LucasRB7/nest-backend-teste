@@ -16,7 +16,7 @@ export class EmailTokenService {
     const token = Math.floor(100000 + Math.random() * 900000).toString(); // Ex: 6 dígitos
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // expira em 15 minutos
 
-    const tokenEntry = this.tokenRepo.create({ email, token, expiresAt });
+    const tokenEntry = this.tokenRepo.create({ email, token });
     await this.tokenRepo.save(tokenEntry);
 
     const resend = new Resend(process.env.RESEND_API);
@@ -32,7 +32,6 @@ export class EmailTokenService {
     const entry = await this.tokenRepo.findOne({ where: { email, token } });
 
     if (!entry) return false;
-    if (entry.expiresAt < new Date()) return false;
     return true;
   }
 }

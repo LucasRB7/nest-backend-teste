@@ -12,8 +12,8 @@ export class EmailToken {
   token: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdat: Date;
 
   @Column({ type: 'timestamp' })
-  expiresAt: Date;
+  expiresat: Date;
 }
