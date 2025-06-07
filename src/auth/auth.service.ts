@@ -45,8 +45,8 @@ export class AuthService {
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: false, // true em produção com HTTPS
-      sameSite: 'lax',
+      secure: true,
+      sameSite: 'none',
       maxAge: 24 * 60 * 60 * 1000, // 1 dia
     });
     return { 
