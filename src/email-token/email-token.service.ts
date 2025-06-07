@@ -14,18 +14,18 @@ export class EmailTokenService {
 
   async generateToken(email: string): Promise<void> {
     const token = Math.floor(100000 + Math.random() * 900000).toString(); // Ex: 6 dígitos
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // expira em 15 minutos
 
     const tokenEntry = this.tokenRepo.create({ email, token });
     await this.tokenRepo.save(tokenEntry);
 
     const resend = new Resend(process.env.RESEND_API);
-    await resend.emails.send({
-      from: 'Sebby Games <no-reply@onresend.com>',
+    const resSend = await resend.emails.send({
+      from: '<no-reply@onresend.com>',
       to: email,
       subject: 'Código de verificação',
       text: `Seu código é: ${token}. Ele expira em 15 minutos.`
     });
+    console.log(resSend)
   }
 
   async validateToken(email: string, token: string): Promise<boolean> {
