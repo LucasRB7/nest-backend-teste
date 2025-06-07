@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useWebSocketAdapter(new IoAdapter(app));
    app.enableCors({
-        origin: "*",  // Altere para seu domínio final em produção
+        origin: "https://dlrbtech.com/sebbycomunidade/",  // Altere para seu domínio final em produção
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
