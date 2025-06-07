@@ -20,12 +20,11 @@ export class EmailTokenService {
     await this.tokenRepo.save(tokenEntry);
 
     const resend = new Resend(process.env.RESEND_API);
-
     await resend.emails.send({
       from: 'Sebby Games <no-reply@onresend.com>',
       to: email,
       subject: 'Código de verificação',
-      text: `Seu código é: ${token}`
+      text: `Seu código é: ${token}. Ele expira em 15 minutos.`
     });
   }
 
@@ -34,9 +33,6 @@ export class EmailTokenService {
 
     if (!entry) return false;
     if (entry.expiresAt < new Date()) return false;
-
-    // Token válido, pode deletar se quiser
-    await this.tokenRepo.delete({ id: entry.id });
     return true;
   }
 }

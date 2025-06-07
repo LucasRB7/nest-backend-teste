@@ -4,23 +4,24 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { userDtoLogin } from './dto/auth.dto.login';
 import { userDtoRegister } from './dto/auth.dto.register';
-import * as nodemailer from 'nodemailer';
+import { EmailTokenService } from 'src/email-token/email-token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private emailToken: EmailTokenService
   ) {}
 
   async register(userDto: userDtoRegister): Promise<any> {
     const userExists = await this.usersService.findUserByEmail(userDto.email);
     if (userExists) {
-      throw new Error('Usuário já cadastrado');
+    return { message: 'Email já cadastrado'};
     }
     const createdUser = await this.usersService.createUser(userDto);
-
-    return { message: 'Usuário cadastrado com sucesso', user: createdUser };
+    await this.emailToken.generateToken(userDto.email);
+    return { message: 'Token de confirmação enviado para o email', user: createdUser };
   }
 
   // LOGIN
