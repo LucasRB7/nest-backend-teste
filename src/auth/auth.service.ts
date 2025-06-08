@@ -26,7 +26,6 @@ export class AuthService {
     return { message: 'Token de confirmação enviado para o email', user: createdUser };
   }
 
-  // LOGIN
   async login(dto: userDtoLogin, res: Response): Promise<{ access_token: string, type: number, id_user: number,nickname: string, online:number}> {
     const user = await this.usersService.findNickname(dto.nickname);
 
