@@ -31,7 +31,7 @@ export class EmailTokenService {
 
   async validateToken(email: string, token: string): Promise<boolean> {
     const entry = await this.tokenRepo.findOne({ where: { email, token } });
-
+    console.log(entry)
     if (!entry) return false;
     return true;
   }
