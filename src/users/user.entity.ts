@@ -31,4 +31,7 @@ export class Users {
 
   @Column()
   online: number;
+
+  @Column()
+  genero: string;
 }

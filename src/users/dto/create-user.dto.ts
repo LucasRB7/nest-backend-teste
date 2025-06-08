@@ -21,4 +21,7 @@ export class CreateUserDto{
       
       @ApiProperty({example: "PI, MA, RJ"})
       estado: string;
+
+      @ApiProperty({example: "Masculino ou Feminino"})
+      genero: string;
 }

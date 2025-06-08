@@ -16,4 +16,6 @@ export class userDtoRegister{
     avatar: string;
     @IsString()
     estado: string;
+    @IsString()
+    genero: string;
 }
