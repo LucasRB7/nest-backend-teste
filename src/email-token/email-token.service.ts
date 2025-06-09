@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailToken } from './email-token.entity';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { Resend } from 'resend';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class EmailTokenService {
@@ -13,8 +14,8 @@ export class EmailTokenService {
 
   async generateToken(email: string): Promise<void> {
     const token = Math.floor(100000 + Math.random() * 900000).toString(); // Ex: 6 dígitos
-
-    const tokenEntry = this.tokenRepo.create({ email, token });
+    const expiresat = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+    const tokenEntry = this.tokenRepo.create({ email, token , expiresat});
     await this.tokenRepo.save(tokenEntry);
 
     const resend = new Resend(process.env.RESEND_API);
@@ -37,4 +38,12 @@ export class EmailTokenService {
       return true;
     }
   }
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  async removeExpiredTokens() {
+    const now = new Date();
+    await this.tokenRepo.delete({ expiresat: LessThan(now) });
+  }
+
+
 }

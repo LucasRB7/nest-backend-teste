@@ -9,6 +9,7 @@ import { FollowModule } from './follow/follow.module';
 import { ModelCarsModule } from './model.cars/model.cars.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { ConfigModule } from '@nestjs/config';
     SkinsModule,
     FollowModule,
     ModelCarsModule,
-    NotificationsModule
+    NotificationsModule,
+    ScheduleModule
     ],
   controllers: [AppController],
   providers: [AppService]
