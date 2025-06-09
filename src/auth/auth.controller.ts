@@ -19,7 +19,7 @@ export class AuthController {
   @ApiBody({type: CreateUserDto})
   @Post('register')
   async register(@Body() dto: userDtoRegister) {
-    await this.authService.register(dto);        
+    return await this.authService.register(dto);        
   }
   
   @ApiOperation({summary:'Responsavel por fazer o login'})
