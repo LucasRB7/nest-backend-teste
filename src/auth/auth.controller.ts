@@ -4,7 +4,6 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { userDtoRegister } from './dto/auth.dto.register';
 import { userDtoLogin } from './dto/auth.dto.login';
-import { EmailTokenService } from 'src/email-token/email-token.service';
 import { Response } from 'express';
 
 @ApiTags('Autenticação')
@@ -20,6 +19,13 @@ export class AuthController {
   @Post('register')
   async register(@Body() dto: userDtoRegister) {
     return await this.authService.register(dto);        
+  }
+
+  @ApiOperation({summary:'Envia token para email'})
+  @ApiResponse({status: 200, description:'Sucesso'})
+  @Post('verify-login')
+  async verify(@Body() email: string) {
+    return await this.authService.verifyLogin(email);        
   }
   
   @ApiOperation({summary:'Responsavel por fazer o login'})

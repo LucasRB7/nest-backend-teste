@@ -15,6 +15,9 @@ export class AuthService {
     private emailToken: EmailTokenService
   ) {}
   
+  async verifyLogin(email:string):Promise<any>{
+    await this.emailToken.generateToken(email);
+  }
 
   async register(userDto: userDtoRegister): Promise<any> {
     const userExists = await this.usersService.findUserByEmail(userDto.email);
