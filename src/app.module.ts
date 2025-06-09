@@ -29,7 +29,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     FollowModule,
     ModelCarsModule,
     NotificationsModule,
-    ScheduleModule
+    ScheduleModule.forRoot()
     ],
   controllers: [AppController],
   providers: [AppService]
