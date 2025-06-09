@@ -24,7 +24,7 @@ export class AuthController {
   @ApiOperation({summary:'Envia token para email'})
   @ApiResponse({status: 200, description:'Sucesso'})
   @Post('verify-login')
-  async verify(@Body() email: string) {
+  async verify(@Body('email') email: string) {
     return await this.authService.verifyLogin(email);        
   }
   
