@@ -37,16 +37,17 @@ export class UsersController {
             return this.UserService.findByType(type);
       }
 
-      @ApiOperation({summary:"Altera a propriedade online de 0 para 1 ou vice-versa"})
-      @Put('/atualiza/:uid')
-      async Atualiza(
-            @Param('uid') uid: number,
-            @Body() 
-            body:{
-                  online: number
-            }
-      ){
-            return await this.UserService.atualizarStatus(body.online,uid);
-      }
+      // @ApiOperation({summary:"Altera a propriedade online de 0 para 1 ou vice-versa"})
+      // @Put('/atualiza/:uid')
+      // async Atualiza(
+      //       @Param('uid') uid: number,
+      //       @Body() 
+      //       body:{
+      //             online: number
+      //       }
+      // ){
+               //função atualizaStatus inapropriada
+      //       return await this.UserService.atualizarStatus(body.online,uid);
+      // }
 
 }

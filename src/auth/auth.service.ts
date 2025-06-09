@@ -28,11 +28,13 @@ export class AuthService {
 
   async login(dto: userDtoLogin, res: Response): Promise<{ access_token: string, type: number, id_user: number,nickname: string, online:number}> {
     const user = await this.usersService.findNickname(dto.nickname);
-
-    if (!user) {
-      throw new UnauthorizedException('Usuário não encontrado');
+    console.log(user)
+    if (user?.verificado == false){
+      throw new UnauthorizedException('Usuario com email não verificado.');
     }
-
+    if (!user) {
+      throw new UnauthorizedException('Nickname não encontrado');
+    }
     const isPasswordValid = await bcrypt.compare(dto.password, user.password);
 
     if (!isPasswordValid) {

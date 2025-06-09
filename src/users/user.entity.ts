@@ -34,4 +34,7 @@ export class Users {
 
   @Column()
   genero: string;
+
+  @Column()
+  verificado: boolean;
 }

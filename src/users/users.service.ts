@@ -13,13 +13,12 @@ export class UsersService {
   ) {}
   async createUser(dto: userDtoRegister) {
   const hashedPassword = await bcrypt.hash(dto.password, 10);
-
   await this.usersRepository.manager.query(
     `INSERT INTO users 
-      (id, name, nickname, email, dt_nasc, password, type, avatar, estado, online)
+      (id, name, nickname, email, dt_nasc, password, type, avatar, estado, online, genero, verificado)
      VALUES 
-      (DEFAULT, $1, $2, $3, $4, $5, 2, $6, $7, 0)`,
-    [dto.name, dto.nickname, dto.email, dto.dt_nasc, hashedPassword, dto.avatar, dto.estado]
+      (DEFAULT, $1, $2, $3, $4, $5, 2, $6, $7, 0, $8, false)`,
+    [dto.name, dto.nickname, dto.email, dto.dt_nasc, hashedPassword, dto.avatar, dto.estado, dto.genero]
   );
 }
 
@@ -52,12 +51,10 @@ export class UsersService {
     return await this.usersRepository.find({ where: { type:type } });
     
   }
-  async atualizarStatus(uid:number, online:number){
-    return await this.usersRepository.createQueryBuilder()
-    .update(Users)
-    .set({online: online })
-    .where("id = :id", { id: uid })
-    .execute()
+  async atualizarStatusVerificado(email:string){
+    return await this.usersRepository.manager.query(`
+        UPDATE users SET verificado = true WHERE email = $1
+      `,[email])
   }
 
   

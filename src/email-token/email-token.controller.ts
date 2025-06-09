@@ -2,10 +2,14 @@
 import { Controller, Post,Get, Body } from '@nestjs/common';
 import { EmailTokenService } from './email-token.service';
 import { ApiOperation } from '@nestjs/swagger';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('email-token')
 export class EmailTokenController {
-  constructor(private readonly tokenService: EmailTokenService) {}
+  constructor(
+    private readonly tokenService: EmailTokenService,
+    private readonly userService: UsersService
+  ) {}
 
   @ApiOperation({
     summary:
@@ -17,8 +21,12 @@ export class EmailTokenController {
       body.email,
       body.token,
     );
-    return isValid
-      ? { success: true, message: 'Token confirmado.' }
-      : { success: false, message: 'Token inválido ou expirado.' };
+    if(isValid){
+      await this.userService.atualizarStatusVerificado(body.email);
+      return { success: true, message: 'Token confirmado.' }
+    }else{
+      return { success: false, message: 'Token inválido ou expirado.' };
+    }     
+      
   }
 }
