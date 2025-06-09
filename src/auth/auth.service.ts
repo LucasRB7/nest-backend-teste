@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
   
   async verifyLogin(email:string):Promise<any>{
-    await this.emailToken.generateToken(email);
+    return await this.emailToken.generateToken(email);
   }
 
   async register(userDto: userDtoRegister): Promise<any> {
