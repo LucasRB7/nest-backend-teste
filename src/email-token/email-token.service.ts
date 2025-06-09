@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmailToken } from './email-token.entity';
 import { Repository } from 'typeorm';
-import * as nodemailer from 'nodemailer';
 import { Resend } from 'resend';
 
 @Injectable()
@@ -23,16 +22,19 @@ export class EmailTokenService {
       from: 'no-reply@dlrbtech.com',
       to: email,
       subject: 'Código de verificação - SebbyGames',
-      text: `Seu código é: ${token}. Ele expira em 15 minutos.`
-    });    
+      text: `Seu código é: ${token}. Ele expira em 15 minutos.`,
+    });
   }
 
   async validateToken(email: string, token: string): Promise<boolean> {
-    const entry = await this.tokenRepo.manager.query(` 
-      SELECT * FROM email_tokens WHERE email = $1 AND token = $2 
-      `,[email, token])
-    console.log(entry)
-    if (!entry) return false;
-    return true;
+    const result = await this.tokenRepo.manager.query(
+      `SELECT * FROM email_tokens WHERE email = $1 AND token = $2`,
+      [email, token],
+    );
+    if (!result || result.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
