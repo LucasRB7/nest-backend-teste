@@ -18,13 +18,13 @@ export class AuthService {
 
   async register(userDto: userDtoRegister): Promise<any> {
     const userExists = await this.usersService.findUserByEmail(userDto.email);
+    const nickExists = await this.usersService.findNickname(userDto.nickname);
     if (userExists) {
       throw new UnauthorizedException('Email ja cadastrado, tente fazer login')
-    }
-    const nickExists = await this.usersService.findNickname(userDto.nickname);
-    if(nickExists){
+    }else if(nickExists){
       throw new UnauthorizedException('Nickname ja cadastrado! tente outro.')
     }
+    
     const createdUser = await this.usersService.createUser(userDto);
     await this.emailToken.generateToken(userDto.email);
     return { message: 'Token de confirmação enviado para o email', user: createdUser };

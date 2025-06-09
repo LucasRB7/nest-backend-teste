@@ -25,7 +25,10 @@ export class UsersService {
 
   async findNickname(nickname: string): Promise <Users | null> {
     const nick = await this.usersRepository.findOne({where: {nickname}})
-    return nick;
+    if (!nick) {
+        return null; 
+      }  
+      return nick;
   }
   async FindIdName(id: number){
     return await this.usersRepository.findOne({where:{id}})
