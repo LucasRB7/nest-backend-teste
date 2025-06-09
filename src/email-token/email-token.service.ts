@@ -19,18 +19,18 @@ export class EmailTokenService {
     await this.tokenRepo.save(tokenEntry);
 
     const resend = new Resend(process.env.RESEND_API);
-    const resSend = await resend.emails.send({
+    await resend.emails.send({
       from: 'no-reply@dlrbtech.com',
       to: email,
       subject: 'Código de verificação - SebbyGames',
       text: `Seu código é: ${token}. Ele expira em 15 minutos.`
-    });
-    console.log(resSend)
-    
+    });    
   }
 
   async validateToken(email: string, token: string): Promise<boolean> {
-    const entry = await this.tokenRepo.findOne({ where: { email, token } });
+    const entry = await this.tokenRepo.manager.query(` 
+      SELECT * FROM email_tokens WHERE email = $1 AND token = $2 
+      `,[email, token])
     console.log(entry)
     if (!entry) return false;
     return true;

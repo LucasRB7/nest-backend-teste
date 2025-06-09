@@ -10,7 +10,6 @@ export class EmailTokenController {
   @ApiOperation({summary:'Responsavel por verificar o token enviado por email. Token ja foi enviado pelo auth.register'})
   @Post('verify')
   async verify(@Body() body: { email: string; token: string }) {
-    console.log(body.email, body.token)
     const isValid = await this.tokenService.validateToken(body.email, body.token);
     return isValid
       ? { success: true, message: 'Token confirmado.' }
