@@ -20,14 +20,14 @@ export class AuthService {
     const userExists = await this.usersService.findUserByEmail(userDto.email);
     const nickExists = await this.usersService.findNickname(userDto.nickname);
     
-    if (userExists) {
-      throw new UnauthorizedException('Email ja cadastrado, tente fazer login')
+    if (userExists == null && nickExists == null ) {
+      const createdUser = await this.usersService.createUser(userDto);
+      await this.emailToken.generateToken(userDto.email);
+      return { message: 'Token de confirmação enviado para o email', user: createdUser };  
     }else if(nickExists){
       throw new UnauthorizedException('Nickname ja cadastrado! tente outro.')
     }else{
-    const createdUser = await this.usersService.createUser(userDto);
-    await this.emailToken.generateToken(userDto.email);
-    return { message: 'Token de confirmação enviado para o email', user: createdUser };
+      throw new UnauthorizedException('Email ja cadastrado, tente fazer login')
     }
 
   }

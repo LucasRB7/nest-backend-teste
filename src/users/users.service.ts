@@ -25,9 +25,6 @@ export class UsersService {
 
   async findNickname(nickname: string): Promise <Users | null> {
     const nick = await this.usersRepository.findOne({where: {nickname}})
-    if (!nick) {
-      throw new NotFoundException('Nickname não encontrado.');
-    }
     return nick;
   }
   async FindIdName(id: number){
@@ -36,9 +33,6 @@ export class UsersService {
 
   async findUserByEmail(email: string): Promise<Users | null> {
       const user = await this.usersRepository.findOne({ where: { email } });  
-      if (!user) {
-      throw new NotFoundException('Email não encontrado.');
-      }
       return user;
     }
 
@@ -59,7 +53,6 @@ export class UsersService {
         UPDATE users SET verificado = true WHERE email = $1
       `,[email])
   }
-
   
 
 }
