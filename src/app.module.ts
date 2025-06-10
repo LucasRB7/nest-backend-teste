@@ -10,6 +10,7 @@ import { ModelCarsModule } from './model.cars/model.cars.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { WordpressModule } from './wordpress/wordpress.module'
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       },
     }),
     UsersModule,
+    WordpressModule,
     AuthModule,
     SkinsModule,
     FollowModule,
