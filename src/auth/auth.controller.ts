@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { userDtoRegister } from './dto/auth.dto.register';
 import { userDtoLogin } from './dto/auth.dto.login';
 import { Response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Autenticação')
 @Controller('auth')
@@ -36,4 +37,12 @@ export class AuthController {
   ) {
     return await this.authService.login(dto, res);
   }
+
+  @Get('auth/verify')
+  @UseGuards(AuthGuard('jwt'))
+  verifyToken(@Req() req) {
+  const user = req.user;
+  return { valid: true, user };
+  }
+
 }
