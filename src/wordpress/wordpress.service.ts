@@ -1,7 +1,7 @@
 // src/wordpress/wordpress.service.ts
 import { Injectable, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import axios from 'axios';
-import * as FormData from 'form-data'; // Use form-data para enviar arquivos para APIs externas
+import FormData from 'form-data'; // Use form-data para enviar arquivos para APIs externas
 
 @Injectable()
 export class WordpressService {
