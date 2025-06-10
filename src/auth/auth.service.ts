@@ -35,7 +35,7 @@ export class AuthService {
 
   }
 
-  async login(dto: userDtoLogin, res: Response): Promise<{ access_token: string, type: number, id_user: number,nickname: string, online:number}> {
+  async login(dto: userDtoLogin, res: Response): Promise<{ nickname: string}> {
     const user = await this.usersService.findNickname(dto.nickname);
     console.log(user)
     if (user?.verificado == false){
@@ -50,7 +50,14 @@ export class AuthService {
       throw new UnauthorizedException('Senha incorreta');
     }
 
-    const payload = { sub: user.id, nickname:user.nickname };
+    const payload = { 
+      sub: user.id, 
+      name: user.name,
+      nickname:user.nickname,
+      online:user.online,
+      type:user.type,
+      avatar:user.avatar       
+    };
     const token = this.jwtService.sign(payload);
 
     res.cookie('jwt', token, {
@@ -59,12 +66,8 @@ export class AuthService {
       sameSite: 'none',
       maxAge: 24 * 60 * 60 * 1000, // 1 dia
     });
-    return { 
-      access_token: token,
-      type: user.type,
-      id_user: user.id,
-      nickname: user.nickname,
-      online:user.online
+    return {
+      nickname: user.nickname
     };
   }
 }
