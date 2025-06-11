@@ -39,6 +39,7 @@ export class WordpressService {
     }
 
     try {
+      console.log(formData)
       const response = await axios.post(
         `${this.wordpressApiUrl}/wp/v2/media`,
         formData,
