@@ -29,8 +29,7 @@ export class WordpressService {
         filename: `${file.originalname}.jpeg`,
         contentType: file.mimetype,
     });
-    console.log(`Original Name: ${file.originalname}`)
-    console.log(`FileName: ${file.filename}`)
+
 
     if (title) {
         formData.append('title', title);
@@ -42,7 +41,6 @@ export class WordpressService {
     }
 
     try {
-      console.log(formData)
       const response = await axios.post(
         `${this.wordpressApiUrl}/wp/v2/media`,
         formData,
