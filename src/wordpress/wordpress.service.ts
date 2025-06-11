@@ -26,9 +26,12 @@ export class WordpressService {
     // Usamos 'form-data' para construir o payload multipart/form-data corretamente para a API externa
     const formData = new FormData();
     formData.append('file', file.buffer, {
-        filename: file.originalname,
+        filename: `${file.originalname}.jpeg`,
         contentType: file.mimetype,
     });
+    console.log(`Original Name: ${file.originalname}`)
+    console.log(`FileName: ${file.filename}`)
+
     if (title) {
         formData.append('title', title);
     } else {
