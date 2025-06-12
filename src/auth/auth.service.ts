@@ -78,7 +78,11 @@ export class AuthService {
     sameSite: 'none',
     path: '/', 
   });
-}
+  }
+
+  // async ForgotPassword(email:string, token:string, newPassword:string){
+
+  // }
 
 }
 

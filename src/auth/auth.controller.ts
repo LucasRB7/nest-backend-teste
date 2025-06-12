@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, UseGuards, Req, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -38,17 +38,28 @@ export class AuthController {
     return await this.authService.login(dto, res);
   }
 
-  @Get('auth/verify')
+  @ApiOperation({summary:'Responsavel por pegar as informações do usuario no Token'})
+  @Get('verify')
   @UseGuards(AuthGuard('jwt'))
   verifyToken(@Req() req) {
   const user = req.user;
   return { valid: true, user };
   }
 
+  @ApiOperation({summary:'Responsavel por fazer o logout, limpando o cookie'})
   @Post('logout')
   logout(@Res() res: Response) {
     this.authService.logout(res);
     return res.status(200).json({ message: 'Logout realizado com sucesso' });
   }
+
+  // @ApiOperation({
+  //   summary:
+  //     'Função especifica do esqueci-senha, faz a verificação do Token e dar um PUT, atualizando a senha do usuario',
+  // })
+  // @Patch('forgot-password')  
+  // async ForgotPass(@Body() body:{email:string, token:string, password:string}){
+  //   return await this.authService
+  // }
 
 }
