@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useWebSocketAdapter(new IoAdapter(app));
    app.enableCors({
-        origin: "https://dlrbtech.com",  // Altere para seu domínio final em produção
+        origin: true,  // Altere para seu domínio final em produção
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
@@ -30,6 +30,5 @@ async function bootstrap() {
     whitelist: true, // Remove qualquer propriedade que não esteja no DTO
   }));
   await app.listen(process.env.PORT || 3000);
-  console.log(`server on in port 3000`)
 }
 bootstrap();

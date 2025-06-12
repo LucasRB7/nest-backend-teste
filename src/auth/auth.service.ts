@@ -37,7 +37,6 @@ export class AuthService {
 
   async login(dto: userDtoLogin, res: Response): Promise<{ nickname: string}> {
     const user = await this.usersService.findNickname(dto.nickname);
-    console.log(user)
     if (user?.verificado == false){
       throw new UnauthorizedException('Usuario com email não verificado.');
     }
