@@ -70,6 +70,16 @@ export class AuthService {
       nickname: user.nickname
     };
   }
+  
+  logout(res: Response): void {
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/', 
+  });
+}
+
 }
 
 

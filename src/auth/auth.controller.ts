@@ -45,4 +45,10 @@ export class AuthController {
   return { valid: true, user };
   }
 
+  @Post('logout')
+  logout(@Res() res: Response) {
+    this.authService.logout(res);
+    return res.status(200).json({ message: 'Logout realizado com sucesso' });
+  }
+
 }
